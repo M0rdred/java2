@@ -52,4 +52,10 @@ public class Book {
 		return "Book [id=" + id + ", author=" + author + ", title=" + title + ", description=" + description
 				+ ", pubYear=" + pubYear + "]";
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return ((Book) obj).getId().equals(this.id);
+	}
+
 }

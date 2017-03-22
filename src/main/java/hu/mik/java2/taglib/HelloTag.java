@@ -20,7 +20,4 @@ public class HelloTag extends SimpleTagSupport{
 		out.print(sw);
 		out.print("!");
 	}
-	
-	
-
 }
