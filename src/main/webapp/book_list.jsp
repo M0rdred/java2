@@ -24,9 +24,9 @@
 				<td><c:out value="${book.author}"></c:out></td>
 				<td><c:out value="${book.description}"></c:out></td>
 				<td><c:out value="${book.pubYear}"></c:out></td>
-				<td><a href="book_edit?bookId=${book.id}">Szerkesztés</a><a
-					href="book_details?bookId=${book.id}">Megtekintés</a><a
-					href="book_edit?bookId=${book.id}">Törlés</a></td>
+				<td><a href="book_edit?bookId=${book.id}">Szerkesztés</a> <a
+					href="book_details?bookId=${book.id}">Megtekintés</a> <a
+					href="book_delete?bookId=${book.id}">Törlés</a></td>
 
 			</tr>
 		</c:forEach>

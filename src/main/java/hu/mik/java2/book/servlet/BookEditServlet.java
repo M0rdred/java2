@@ -42,17 +42,14 @@ public class BookEditServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Book book = new Book();
 		try {
-			BeanUtils.populate(book, req.getParameterMap());
-			if (req.getParameter("id") == null) {
-
-			}
+			BeanUtils.populate(book, req.getParameterMap());			
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			throw new RuntimeException(e);
 		}
-
+		System.out.println("doPost BookEditServlet " + book);
 		BookService bookService = ServiceUtils.getBookService();
 		Book updateBook;
-		if (book.getId() == null) {
+		if (book.getId() == null || book.getId() == 0) {
 			updateBook = bookService.saveBook(book);
 		} else {
 			updateBook = bookService.updateBook(book);
