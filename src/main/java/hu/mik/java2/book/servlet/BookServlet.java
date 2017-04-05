@@ -22,7 +22,7 @@ public class BookServlet extends HttpServlet {
 		BookService bookService = ServiceUtils.getBookService();
 		req.setAttribute("books", bookService.listBooks());
 		req.setAttribute("username", req.getRemoteUser());
-		req.setAttribute("editor", req.isUserInRole("editor"));
+		req.setAttribute("isEditor", req.isUserInRole("editor"));
 
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/book_list.jsp");
 		dispatcher.forward(req, resp);

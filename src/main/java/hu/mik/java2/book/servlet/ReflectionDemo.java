@@ -11,8 +11,10 @@ public class ReflectionDemo {
 			Book book = (Book) Class.forName("hu.mik.java2.book.bean.Book").newInstance();
 			System.out.println(book.getId());
 			Field id = book.getClass().getDeclaredField("id");
+			boolean accessible = id.isAccessible();
 			id.setAccessible(true);
 			id.set(book, 1500);
+			id.setAccessible(accessible);
 			System.out.println(book.getId());
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
