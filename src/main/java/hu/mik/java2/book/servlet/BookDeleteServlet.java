@@ -35,12 +35,11 @@ public class BookDeleteServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		System.out.println("töröl");
 		BookService bookService = ServiceUtils.getBookService();
 		Book book = new Book();
 		try {
 			BeanUtils.populate(book, req.getParameterMap());
-			System.out.println(book.getId());
+			System.out.println(book);
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			throw new RuntimeException(e);
 		}

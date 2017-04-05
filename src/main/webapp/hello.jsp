@@ -21,5 +21,6 @@
 	<c:forEach items="${names}" var="name">
 		<mik:sayHello>${name}</mik:sayHello>
 	</c:forEach>
+	<a href="book_list">Könyvek listája</a>
 </body>
 </html>

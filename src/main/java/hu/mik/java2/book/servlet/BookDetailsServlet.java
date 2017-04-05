@@ -27,6 +27,7 @@ public class BookDetailsServlet extends HttpServlet {
 			book = bookService.getBookById(bookId);
 		}
 
+		
 		req.setAttribute("book", book);
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/book_details.jsp");
 		dispatcher.forward(req, resp);

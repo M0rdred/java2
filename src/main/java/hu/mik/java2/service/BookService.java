@@ -1,5 +1,6 @@
 package hu.mik.java2.service;
 
+import java.io.Closeable;
 import java.util.List;
 
 import hu.mik.java2.book.bean.Book;
@@ -14,4 +15,5 @@ public interface BookService {
 	public Book updateBook(Book book);
 
 	public void deleteBook(Book book);
+	
 }

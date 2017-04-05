@@ -1,5 +1,6 @@
 package hu.mik.java2.service;
 
+import java.io.Closeable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,6 +11,7 @@ import java.util.List;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import javax.swing.plaf.basic.BasicTreeUI.TreeHomeAction;
 
 import hu.mik.java2.book.bean.Book;
 
@@ -82,16 +84,38 @@ public class BookServiceNativeDbImpl implements BookService {
 
 	@Override
 	public Book getBookById(Integer id) {
-		String sql = "select id, author, title, description, pub_year where id = ?";
-		try (Connection connection = dataSource.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(sql);
-				ResultSet resultSet = null) {
+		String sql = "select id, author, title, description, pub_year from T_BOOK where id = ?";
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		Book book = null;
+		try {
+			connection = dataSource.getConnection();
+
+			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setInt(1, id);
+
 			resultSet = preparedStatement.executeQuery();
+			resultSet.next();
+
+			book = new Book();
+
+			book.setId(resultSet.getInt(1));
+			book.setAuthor(resultSet.getString(2));
+			book.setTitle(resultSet.getString(3));
+			book.setDescription(resultSet.getString(4));
+			book.setPubYear(resultSet.getInt(5));
+
+			System.out.println("bookID: " + book.getId());
+
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
+		} finally {
+			closeResource(resultSet);
+			closeResource(preparedStatement);
+			closeResource(connection);
 		}
-		return null;
+		return book;
 	}
 
 	@Override
@@ -126,5 +150,4 @@ public class BookServiceNativeDbImpl implements BookService {
 		// TODO Auto-generated method stub
 
 	}
-
 }
