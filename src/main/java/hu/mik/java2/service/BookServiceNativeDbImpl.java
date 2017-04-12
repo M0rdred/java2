@@ -1,6 +1,5 @@
 package hu.mik.java2.service;
 
-import java.io.Closeable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,7 +10,6 @@ import java.util.List;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-import javax.swing.plaf.basic.BasicTreeUI.TreeHomeAction;
 
 import hu.mik.java2.book.bean.Book;
 
