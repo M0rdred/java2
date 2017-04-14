@@ -19,30 +19,32 @@ td {
 </style>
 </head>
 <body>
-	<table>
-		<tr>
-			<td>Könyv azonosítója</td>
-			<td><c:out value="${book.id }" /></td>
-		</tr>
-		<tr>
-			<td>Könyv címe</td>
-			<td><c:out value="${book.title }" /></td>
-		</tr>
-		<tr>
-			<td>Könyv szerzője</td>
-			<td><c:out value="${book.author }" /></td>
-		</tr>
-		<tr>
-			<td>Könyv leírása</td>
-			<td><c:out value="${book.description }" /></td>
-		</tr>
-		<tr>
-			<td>Kiadás éve</td>
-			<td><c:out value="${book.pubYear }" /></td>
-		</tr>
-	</table>
+	<form action="book_delete" method="get">
+		<table>
+			<tr>
+				<td>Könyv azonosítója</td>
+				<td><c:out value="${book.id }" /></td>
+			</tr>
+			<tr>
+				<td>Könyv címe</td>
+				<td><c:out value="${book.title }" /></td>
+			</tr>
+			<tr>
+				<td>Könyv szerzője</td>
+				<td><c:out value="${book.author }" /></td>
+			</tr>
+			<tr>
+				<td>Könyv leírása</td>
+				<td><c:out value="${book.description }" /></td>
+			</tr>
+			<tr>
+				<td>Kiadás éve</td>
+				<td><c:out value="${book.pubYear }" /></td>
+			</tr>
+		</table>
+		<button type="submit" formmethod="post">Törlés</button>
+		<br />
+	</form>
 	<a href="book_list">Könyvek listája</a>
-	<br />
-<%-- 	<mik:multiTable rowNum="5" colNum="3"></mik:multiTable> --%>
 </body>
 </html>

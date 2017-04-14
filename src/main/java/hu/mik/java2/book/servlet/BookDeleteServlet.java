@@ -29,7 +29,6 @@ public class BookDeleteServlet extends HttpServlet {
 		BookService bookService = ServiceUtils.getBookService();
 		Book book = new Book();
 		if (req.getParameter("bookId") != null) {
-			System.out.println("book ID in get: " + req.getParameter("bookId"));
 			Integer bookId = new Integer(req.getParameter("bookId"));
 			book = bookService.getBookById(bookId);
 		}
@@ -43,18 +42,17 @@ public class BookDeleteServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		BookService bookService = ServiceUtils.getBookService();
 		Book book = new Book();
-		// BeanUtils.populate(book, req.getParameterMap());
-		// System.out.println(book);
-		System.out.println("book ID in post: " + req.getParameter("bookId"));
-		System.out.println("request parameters: " + req.getParameterMap());
+
 		book = bookService.getBookById(new Integer(req.getParameter("bookId")));
-		book = (Book) req.getAttribute("book");
 
 		if (book.getId() != 0) {
 			bookService.deleteBook(book);
 		} else {
 			throw new RuntimeException("Hiba a törlésben");
 		}
+
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/book_list.jsp");
+		dispatcher.forward(req, resp);
 	}
 
 }

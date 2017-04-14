@@ -19,7 +19,7 @@ td {
 </style>
 </head>
 <body>
-	<form action="book_delete" method="get">
+	<form action="book_delete" method="post">
 		<table>
 			<tr>
 				<td>Könyv azonosítója</td>
@@ -42,7 +42,8 @@ td {
 				<td><c:out value="${book.pubYear }" /></td>
 			</tr>
 		</table>
-		<button type="submit" formmethod="post">Törlés</button>
+		<input type="hidden" name="bookId" value="${book.id}" />
+		<button type="submit">Törlés</button>
 		<br />
 	</form>
 	<a href="book_list">Könyvek listája</a>

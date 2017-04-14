@@ -8,25 +8,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
-
 import hu.mik.java2.book.bean.Book;
 
-public class BookServiceNativeDbImpl implements BookService {
+public class BookServiceMySQLDbImpl implements BookService {
 
-	private DataSource dataSource;
-
-	public BookServiceNativeDbImpl() {
-		try {
-			InitialContext context = new InitialContext();
-			this.dataSource = (DataSource) context.lookup("book/bookDatasource");
-
-		} catch (NamingException e) {
-			throw new RuntimeException(e);
-		}
-	}
+	String url = "jdbc:mysql://localhost:3306/book";
 
 	@Override
 	public List<Book> listBooks() {
@@ -37,7 +23,9 @@ public class BookServiceNativeDbImpl implements BookService {
 		String sql = "select id, author, title, description, pub_year from t_book order by id";
 
 		try {
-			connection = this.dataSource.getConnection();
+
+			Class.forName("com.mysql.jdbc.Driver");
+			connection = DriverManager.getConnection(url, "root", "root");
 			preparedStatement = connection.prepareStatement(sql);
 			resultSet = preparedStatement.executeQuery();
 
@@ -47,6 +35,8 @@ public class BookServiceNativeDbImpl implements BookService {
 				books.add(book);
 			}
 		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		} finally {
 			// try-with-resources...
@@ -89,23 +79,16 @@ public class BookServiceNativeDbImpl implements BookService {
 		ResultSet resultSet = null;
 		Book book = null;
 		try {
-			connection = dataSource.getConnection();
+			connection = DriverManager.getConnection(url, "root", "root");
 
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setInt(1, id);
 
 			resultSet = preparedStatement.executeQuery();
-			resultSet.next();
 
-			book = new Book();
-
-			book.setId(resultSet.getInt(1));
-			book.setAuthor(resultSet.getString(2));
-			book.setTitle(resultSet.getString(3));
-			book.setDescription(resultSet.getString(4));
-			book.setPubYear(resultSet.getInt(5));
-
-			System.out.println("bookID: " + book.getId());
+			if (resultSet.next()) {
+				book = mapResultsetToBook(resultSet);
+			}
 
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -120,22 +103,21 @@ public class BookServiceNativeDbImpl implements BookService {
 	@Override
 	public Book saveBook(Book book) {
 		System.out.println("saveBook - " + book);
-		String sql = "insert into t_book (id, author, title, description, pub_year) values (s_book.nextval,?,?,?,?)";
-		try (Connection connection = dataSource.getConnection();
+		String sql = "insert into t_book (author, title, description, pub_year) values (?,?,?,?)";
+		try (Connection connection = DriverManager.getConnection(url, "root", "root");
 				PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-			// select s_book.nextval from dual; --> getNextId();
 			preparedStatement.setString(1, book.getAuthor());
 			preparedStatement.setString(2, book.getTitle());
 			preparedStatement.setString(3, book.getDescription());
 			preparedStatement.setInt(4, book.getPubYear());
 
-			preparedStatement.executeQuery();
-			// connection.commit();
+			preparedStatement.executeUpdate();
+
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 
-		return this.getBookById(book.getId());
+		return getBookById(book.getId());
 	}
 
 	@Override
@@ -144,7 +126,7 @@ public class BookServiceNativeDbImpl implements BookService {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		try {
-			connection = this.dataSource.getConnection();
+			connection = DriverManager.getConnection(url, "root", "root");
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, book.getAuthor());
 			preparedStatement.setString(2, book.getTitle());
@@ -168,7 +150,7 @@ public class BookServiceNativeDbImpl implements BookService {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		try {
-			connection = this.dataSource.getConnection();
+			connection = DriverManager.getConnection(url, "root", "root");
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setInt(1, book.getId());
 			preparedStatement.executeUpdate();

@@ -17,10 +17,10 @@
 	<% Date date = new Date(); %>
 	<h2><%= date.toString() %></h2>
 	
-<%-- 	<% request.setAttribute("names", new String[] {"Béla","Tamás","Gábor"}); %> --%>
-<%-- 	<c:forEach items="${names}" var="name"> --%>
-<%-- 		<mik:sayHello>${name}</mik:sayHello> --%>
-<%-- 	</c:forEach> --%>
+	<% request.setAttribute("names", new String[] {"Béla","Tamás","Gábor"}); %>
+	<c:forEach items="${names}" var="name">
+		<mik:sayHello>${name}</mik:sayHello>
+	</c:forEach>
 	<a href="book_list">Könyvek listája</a>
 </body>
 </html>

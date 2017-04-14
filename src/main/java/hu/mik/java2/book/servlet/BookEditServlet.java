@@ -49,6 +49,7 @@ public class BookEditServlet extends HttpServlet {
 		System.out.println("request parameters: " + req.getParameterMap());
 		BookService bookService = ServiceUtils.getBookService();
 		Book updateBook;
+
 		if (book.getId() == null || book.getId() == 0) {
 			updateBook = bookService.saveBook(book);
 		} else {
@@ -57,7 +58,7 @@ public class BookEditServlet extends HttpServlet {
 
 		req.setAttribute("book", updateBook);
 
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/book_details.jsp");
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/book_list.jsp");
 		dispatcher.forward(req, resp);
 	}
 }

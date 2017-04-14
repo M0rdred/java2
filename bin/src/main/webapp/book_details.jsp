@@ -43,6 +43,6 @@ td {
 	</table>
 	<a href="book_list">Könyvek listája</a>
 	<br />
-<%-- 	<mik:multiTable rowNum="5" colNum="3"></mik:multiTable> --%>
+	<mik:multiTable rowNum="5" colNum="3"></mik:multiTable>
 </body>
 </html>
